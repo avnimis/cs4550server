@@ -21,8 +21,8 @@ export const createReview = async (reviewData) => {
       { new: true } // Return the updated document
     );
 
-     // Step 3: Add review to the product's reviews array
-     await productModel.findByIdAndUpdate(
+    // Step 3: Add review to the product's reviews array
+    await productModel.findByIdAndUpdate(
       productId,
       { $push: { reviews: savedReview._id } },
       { new: true }
