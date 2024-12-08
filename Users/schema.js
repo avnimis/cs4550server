@@ -18,6 +18,12 @@ const userSchema = new mongoose.Schema({ //create schema
     loginId: String,
     lastActivity: Date,
     totalActivity: String,
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ReviewModel", // Reference to the Review model
+      },
+    ],
   },
   { collection: "users" } // store data in "users" collection
 );
