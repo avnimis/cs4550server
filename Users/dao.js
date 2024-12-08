@@ -1,7 +1,6 @@
 import model from "./model.js";
 
 export const createUser = (user) => {
-  delete user._id; // remove _id field if user wants to pass in a new one
   return model.create(user);
 };
 

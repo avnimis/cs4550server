@@ -33,3 +33,34 @@ export const createReview = async (reviewData) => {
     throw error;
   }
 };
+
+//removes from user and product array!
+export const deleteReview = async (userId, productId) => {
+  try {
+    // Step 1: Remove the review from the user's reviews array
+    const user = await userModel.findById(userId);
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found.`);
+    }
+    //remove the review with product ID from the users reviews array
+    user.reviews = user.reviews.filter(
+      (review) => review.productId.toString() !== productId
+    );
+    await user.save();
+
+    // Step 2: Remove the review from the product's reviews array
+    const product = await productModel.findById(productId);
+    if (!product) {
+      throw new Error(`Product with ID ${productId} not found.`);
+    }
+    product.reviews = product.reviews.filter(
+      (review) => review.userId.toString() !== userId
+    );
+    await product.save();
+
+    return { message: "Review successfully deleted." };
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    throw error;
+  }
+};
