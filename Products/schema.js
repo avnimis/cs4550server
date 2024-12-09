@@ -1,5 +1,4 @@
 import mongoose from "mongoose"; //load mongoose library
-import reviewSchema from "./reviewSchema"
 
 const productSchema = new mongoose.Schema({ //create schema
 
@@ -23,7 +22,6 @@ const productSchema = new mongoose.Schema({ //create schema
       type: [String], // Array of tags (e.g., ["Vegan", "Cruelty-Free"])
       default: []
     },
-    reviews: [reviewSchema], // Embedded array of reviews
   },
   { collection: "products" } // store data in "products" collection
 );
