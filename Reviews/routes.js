@@ -1,37 +1,31 @@
 import * as reviewDao from "./dao.js";
-export default function ReveiwRoutes(app) {
+export default function ReviewRoutes(app) {
 
-
-  //create review route
-  app.post("/", async (req, res) => {
-    const reviewData = req.body;
-
-  try {
-    const newReview = await reviewDao.createReview(reviewData);
-    res.status(201).json(newReview);
-  } catch (error) {
-    console.error("Error creating review:", error);
-    res.status(500).json({ message: "Failed to create review." });
-  }
+  //to get reivews for user
+  app.get("/api/reviews/:userId", async (req, res) => {
+    const { userId } = req.params;
+    const reviews = await reviewDao.findReviewsForUser(userId);
+    res.status(200).send(reviews);
   });
 
-  // delete review route
-  app.delete("/", async (req, res) => {
-    const { userId, productId } = req.body;
-  
-    if (!userId || !productId) {
-      return res.status(400).json({ message: "userId and productId are required." });
-    }
-  
-    try {
-      const result = await reviewDao.deleteReview(userId, productId);
-      res.status(200).json(result);
-    } catch (error) {
-      console.error("Error deleting review:", error);
-      res.status(500).json({ message: "Failed to delete review." });
-    }
+  //to get reivews for product
+  app.get("/api/reviews/:productId", async (req, res) => {
+    const { productId } = req.params;
+    const reviews = await reviewDao.findReviewsForProduct(productId);
+    res.status(200).send(reviews);
   });
 
+  //make review function here
+  app.post("/api/reviews", async (req, res) => {
+    const { productId } = req.params;
+    const { userId } = req.body; // Extract the user ID from the request body
 
+    if (!userId) {
+      return res.status(400).send({ error: "User ID is required" });
+    }
+
+    reviewDao.createReview(userId, productId);
+    res.status(201).send({ message: "review successfully created" });
+  });
 
 }
