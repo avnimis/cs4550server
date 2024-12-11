@@ -1,4 +1,5 @@
 import mongoose from "mongoose"; //load mongoose library
+import reviewSchema from "./reviewSchema"
 
 const productSchema = new mongoose.Schema({ //create schema
 
