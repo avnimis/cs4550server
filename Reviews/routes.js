@@ -8,6 +8,7 @@ export default function ReviewRoutes(app) {
     res.status(200).send(reviews);
   });
 
+  
   //to get reivews for product
   app.get("/api/reviews/:productId", async (req, res) => {
     const { productId } = req.params;
@@ -15,17 +16,33 @@ export default function ReviewRoutes(app) {
     res.status(200).send(reviews);
   });
 
-  //make review function here
+
+  // create review 
   app.post("/api/reviews", async (req, res) => {
-    const { productId } = req.params;
-    const { userId } = req.body; // Extract the user ID from the request body
-
-    if (!userId) {
-      return res.status(400).send({ error: "User ID is required" });
+    const newReview = req.body;
+    try {
+      const createdProduct = await reviewDao.createReview(newReview);
+      res.status(201).json(newReview);
+    } catch (error) {
+      console.error("Error creating review:", error);
+      res.status(500).json({ message: "Failed to create review." });
     }
-
-    reviewDao.createReview(userId, productId);
-    res.status(201).send({ message: "review successfully created" });
   });
 
+
+  // delete review
+  app.delete("/api/reviews/:rid", async (req, res) => {
+    const { rid } = req.params;
+    const status = await productDao.deleteReview(rid);
+    res.send(status);
+  });
+
+
+  //parses ID of the review through the URL and and reivew updates from the HTTP request body. use the DAO's updateReview to apply the updates to the review.
+  app.put("/api/products/:_id", async (req, res) => {
+    const { rid } = req.params;
+    const reviewUpdates = req.body;
+    const status = await productDao.updateReview(rid, reviewUpdates);
+    res.send(status);
+  });
 }
