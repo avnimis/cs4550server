@@ -24,7 +24,7 @@ export default function UserRoutes(app) {
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
   };
-  
+
   app.post("/api/users/signup", signup);
 
 
