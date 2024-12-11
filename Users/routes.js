@@ -1,6 +1,12 @@
 import * as dao from "./dao.js";
 export default function UserRoutes(app) {
 
+  const findAllUsers = async (req, res) => {
+    const users = await dao.findAllUsers();
+    res.json(users);
+  };
+  app.get("/api/users", findAllUsers);
+
   const signin = async (req, res) => {
     const { username, password } = req.body;
     const currentUser = await dao.findUserByCredentials(username, password);

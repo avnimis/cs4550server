@@ -2,6 +2,12 @@ import * as productDao from "./dao.js";
 // import * as reviewDao from "../Reviews/dao.js";
 export default function ProductRoutes(app) {
 
+  const findAllProducts = async (req, res) => {
+    const products = await productDao.findAllProducts();
+    res.json(products);
+  };
+  app.get("/api/products", findAllProducts);
+
 
   // Create a new product
   app.post("/api/products", async (req, res) => {

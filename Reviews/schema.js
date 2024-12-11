@@ -30,7 +30,7 @@ const reviewSchema = new mongoose.Schema({ //create schema
     default: Date.now
   }
 },
-{ collection: "products" } // store data in "products" collection
+  { collection: "products" } // store data in "products" collection
 );
 
 export default reviewSchema;

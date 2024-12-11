@@ -11,3 +11,5 @@ export const deleteProduct = (productId) => {
 export const updateProduct = (productId, product) =>
   model.updateOne({ _id: productId }, { $set: product });
 
+export const findAllProducts = () => model.find();
+
